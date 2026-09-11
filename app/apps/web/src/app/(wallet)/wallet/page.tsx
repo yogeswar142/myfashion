@@ -1,67 +1,63 @@
 import Link from 'next/link';
-import { Wallet, ArrowLeft, Zap, Crown, Plus, CheckCircle } from 'lucide-react';
+import { Stack, Group, Text, Paper, Box, Button } from '@mantine/core';
 
 export default function WalletPage() {
   return (
-    <div className="flex flex-col space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Link
+    <Stack gap="xl" px={20} pt={16} pb={80}>
+      <Group justify="space-between" align="center">
+        <Button
+          component={Link}
           href="/"
-          className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
+          variant="subtle"
+          color="gray"
+          size="xs"
+          leftSection={<span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_back</span>}
+          styles={{ root: { color: '#6B6560', padding: 0 } }}
         >
-          <ArrowLeft size={14} />
-          <span>Back</span>
-        </Link>
-        <span className="text-[10px] tracking-wider uppercase bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
+          Back
+        </Button>
+        <Text size="xs" tt="uppercase" c="#2E7D32" fw={600} style={{ letterSpacing: '0.12em', padding: '2px 8px', background: 'rgba(46, 125, 50, 0.1)', border: '1px solid rgba(46, 125, 50, 0.3)' }}>
           Store Credits
-        </span>
-      </div>
+        </Text>
+      </Group>
 
-      {/* Balance Card */}
-      <div className="p-5 rounded-2xl bg-gradient-to-br from-neutral-900 to-neutral-950 border border-neutral-800 shadow-xl relative overflow-hidden">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
-              <Wallet size={18} />
-            </div>
-            <span className="text-xs font-semibold text-neutral-300">Credit Balance</span>
-          </div>
-          <span className="text-[10px] text-neutral-500 font-mono">ID: WALLET-091</span>
-        </div>
+      <Paper p="xl" radius="xs" style={{ background: '#1A1A1A', color: '#fff' }}>
+        <Group justify="space-between" align="center" mb="md">
+          <Group gap="sm">
+            <span className="material-symbols-outlined" style={{ fontSize: 20, color: '#C9A84C' }}>account_balance_wallet</span>
+            <Text size="xs" fw={600} c="#E8E0D6">Credit Balance</Text>
+          </Group>
+          <Text size="xs" c="#9A8E7C" style={{ fontFamily: 'monospace', fontSize: 10 }}>ID: WALLET-091</Text>
+        </Group>
 
-        <div className="text-3xl font-bold text-white mb-4">
-          100 <span className="text-sm font-normal text-neutral-400">credits</span>
-        </div>
+        <Group align="baseline" gap="xs" mb="lg">
+          <Text style={{ fontSize: 36, fontWeight: 700, color: '#fff', lineHeight: 1 }}>100</Text>
+          <Text size="sm" c="#9A8E7C">credits</Text>
+        </Group>
 
-        <div className="grid grid-cols-2 gap-3 pt-3 border-t border-neutral-800">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded bg-blue-500/10 text-blue-400">
-              <Zap size={14} />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-neutral-200">90 Normal</div>
-              <div className="text-[10px] text-neutral-500">Western & casual</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded bg-amber-500/10 text-amber-400">
-              <Crown size={14} />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-neutral-200">10 Premium</div>
-              <div className="text-[10px] text-neutral-500">Intricate sarees</div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Group grow style={{ borderTop: '1px solid #333', paddingTop: 16 }}>
+          <Group gap="sm" wrap="nowrap">
+            <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#64B5F6' }}>bolt</span>
+            <Box>
+              <Text size="xs" fw={600} c="#E8E0D6">90 Normal</Text>
+              <Text size="xs" c="#9A8E7C" style={{ fontSize: 10 }}>Western & casual</Text>
+            </Box>
+          </Group>
+          <Group gap="sm" wrap="nowrap">
+            <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#C9A84C' }}>workspace_premium</span>
+            <Box>
+              <Text size="xs" fw={600} c="#E8E0D6">10 Premium</Text>
+              <Text size="xs" c="#9A8E7C" style={{ fontSize: 10 }}>Intricate sarees</Text>
+            </Box>
+          </Group>
+        </Group>
+      </Paper>
 
-      {/* Top-up Packs */}
-      <div>
-        <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
+      <Box>
+        <Text size="xs" fw={600} c="#6B6560" tt="uppercase" style={{ letterSpacing: '0.12em', marginBottom: 12 }}>
           Top-Up Credit Packs
-        </h2>
-        <div className="space-y-3">
+        </Text>
+        <Stack gap="sm">
           {[
             {
               title: 'Standard Top-Up',
@@ -85,29 +81,23 @@ export default function WalletPage() {
               badge: 'Festival Rush',
             },
           ].map((pack, i) => (
-            <div
-              key={i}
-              className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between hover:border-neutral-700 transition-colors"
-            >
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold text-white">{pack.title}</span>
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/20 font-medium">
-                    {pack.badge}
-                  </span>
-                </div>
-                <div className="text-[11px] text-neutral-400">
-                  {pack.credits} • <span className="text-neutral-500">{pack.rate}</span>
-                </div>
-              </div>
-              <button className="flex items-center gap-1 px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-xs font-semibold border border-neutral-700 transition-colors">
-                <Plus size={12} />
-                <span>{pack.price}</span>
-              </button>
-            </div>
+            <Paper key={i} withBorder p="md" radius="xs" style={{ background: '#FFFFFF', borderColor: '#E8E0D6' }}>
+              <Group justify="space-between" align="center" wrap="nowrap">
+                <Box style={{ minWidth: 0, flex: 1 }}>
+                  <Group gap="xs" mb={4}>
+                    <Text size="xs" fw={700} c="#1A1A1A">{pack.title}</Text>
+                    <Text size="xs" fw={600} c="#9E7E1E" style={{ fontSize: 9, padding: '2px 6px', background: 'rgba(201, 168, 76, 0.15)', border: '1px solid rgba(201, 168, 76, 0.3)' }}>{pack.badge}</Text>
+                  </Group>
+                  <Text size="xs" c="#6B6560" style={{ fontSize: 11 }}>{pack.credits} • {pack.rate}</Text>
+                </Box>
+                <Button color="dark" variant="outline" radius="xs" size="xs" leftSection={<span className="material-symbols-outlined" style={{ fontSize: 14 }}>add</span>} styles={{ root: { borderColor: '#1A1A1A', color: '#1A1A1A' } }}>
+                  {pack.price}
+                </Button>
+              </Group>
+            </Paper>
           ))}
-        </div>
-      </div>
-    </div>
+        </Stack>
+      </Box>
+    </Stack>
   );
 }

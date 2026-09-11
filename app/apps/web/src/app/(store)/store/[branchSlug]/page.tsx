@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Store, MapPin, QrCode, ArrowLeft, Sparkles, Tag } from 'lucide-react';
+import { Stack, Group, Text, Paper, Box, Button, Grid } from '@mantine/core';
 
 interface StorePageProps {
   params: {
@@ -14,98 +14,92 @@ export default function StoreBranchPage({ params }: StorePageProps) {
     .join(' ');
 
   return (
-    <div className="flex flex-col space-y-5">
-      {/* Header with back button */}
-      <div className="flex items-center justify-between">
-        <Link
+    <Stack gap="xl" px={20} pt={16} pb={80}>
+      <Group justify="space-between" align="center">
+        <Button
+          component={Link}
           href="/"
-          className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
+          variant="subtle"
+          color="gray"
+          size="xs"
+          leftSection={<span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_back</span>}
+          styles={{ root: { color: '#6B6560', padding: 0 } }}
         >
-          <ArrowLeft size={14} />
-          <span>Back</span>
-        </Link>
-        <span className="text-[10px] tracking-wider uppercase bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">
+          Back
+        </Button>
+        <Text size="xs" tt="uppercase" c="#1565C0" fw={600} style={{ letterSpacing: '0.12em', padding: '2px 8px', background: 'rgba(21, 101, 192, 0.1)', border: '1px solid rgba(21, 101, 192, 0.3)' }}>
           In-Store Mode
-        </span>
-      </div>
+        </Text>
+      </Group>
 
-      {/* Store Banner */}
-      <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-400">
-            <Store size={20} />
-          </div>
-          <div>
-            <h1 className="text-base font-bold text-white">{branchName}</h1>
-            <div className="flex items-center text-xs text-neutral-400 gap-1 mt-0.5">
-              <MapPin size={12} />
-              <span>Flagship Store • Branch: {params.branchSlug}</span>
-            </div>
-          </div>
-        </div>
-        <p className="text-xs text-neutral-400">
+      <Paper withBorder p="md" radius="xs" style={{ background: '#FFFFFF', borderColor: '#E8E0D6' }}>
+        <Group gap="md" mb="sm" wrap="nowrap">
+          <Box style={{ padding: 8, background: 'rgba(21, 101, 192, 0.1)', borderRadius: 8, color: '#1565C0', flexShrink: 0 }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 24 }}>storefront</span>
+          </Box>
+          <Box>
+            <Text size="sm" fw={700} c="#1A1A1A">{branchName}</Text>
+            <Group gap={4} mt={2}>
+              <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#6B6560' }}>location_on</span>
+              <Text size="xs" c="#6B6560" style={{ fontSize: 11 }}>Flagship Store • Branch: {params.branchSlug}</Text>
+            </Group>
+          </Box>
+        </Group>
+        <Text size="xs" c="#6B6560" style={{ lineHeight: 1.5 }}>
           Scan garment barcodes or select in-store picks to try them immediately on your digital model.
-        </p>
-      </div>
+        </Text>
+      </Paper>
 
-      {/* Quick QR Scan Action */}
-      <div className="p-4 rounded-xl bg-gradient-to-r from-neutral-900 to-neutral-900/80 border border-neutral-800 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-neutral-800 text-amber-400">
-            <QrCode size={20} />
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-white">Scan Garment QR / Tag</div>
-            <div className="text-[11px] text-neutral-400">Instant virtual try-on from store rack</div>
-          </div>
-        </div>
-        <Link
-          href="/try-on"
-          className="px-3 py-1.5 bg-amber-500 text-neutral-950 rounded-lg text-xs font-semibold hover:bg-amber-400 transition-colors"
-        >
-          Scan
-        </Link>
-      </div>
+      <Paper withBorder p="md" radius="xs" style={{ background: '#1A1A1A', borderColor: '#333' }}>
+        <Group justify="space-between" align="center" wrap="nowrap">
+          <Group gap="md" wrap="nowrap">
+            <Box style={{ padding: 8, background: '#333', borderRadius: 8, color: '#C9A84C' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 24 }}>qr_code_scanner</span>
+            </Box>
+            <Box>
+              <Text size="xs" fw={600} c="#fff">Scan Garment QR / Tag</Text>
+              <Text size="xs" c="#9A8E7C" style={{ fontSize: 11 }}>Instant virtual try-on from store rack</Text>
+            </Box>
+          </Group>
+          <Button component={Link} href="/try-on" color="yellow" radius="xs" size="xs" styles={{ root: { color: '#1A1A1A' } }}>
+            Scan
+          </Button>
+        </Group>
+      </Paper>
 
-      {/* Sample In-Store Garment Picks */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">
+      <Box>
+        <Group justify="space-between" align="center" mb="sm">
+          <Text size="xs" fw={600} c="#6B6560" tt="uppercase" style={{ letterSpacing: '0.12em' }}>
             Available In Store Today
-          </h2>
-          <span className="text-[11px] text-amber-400 font-medium">10+ Featured</span>
-        </div>
+          </Text>
+          <Text size="xs" fw={600} c="#C9A84C" style={{ fontSize: 11 }}>10+ Featured</Text>
+        </Group>
 
-        <div className="grid grid-cols-2 gap-3">
+        <Grid gutter="sm">
           {[
             { name: 'Kanjivaram Silk Saree', cat: 'Saree', price: '₹14,999' },
             { name: 'Handloom Banarasi Saree', cat: 'Saree', price: '₹18,500' },
             { name: 'Raw Silk Sherwani', cat: 'Men', price: '₹12,400' },
             { name: 'Zari Border Anarkali', cat: 'Dress', price: '₹8,990' },
           ].map((item, idx) => (
-            <div
-              key={idx}
-              className="p-3 rounded-xl bg-neutral-900/70 border border-neutral-800/80 flex flex-col justify-between"
-            >
-              <div className="aspect-[3/4] bg-neutral-800/50 rounded-lg mb-2 flex items-center justify-center text-neutral-600">
-                <Tag size={20} />
-              </div>
-              <div>
-                <div className="text-[10px] text-amber-400 uppercase tracking-wider">{item.cat}</div>
-                <div className="text-xs font-semibold text-neutral-200 truncate">{item.name}</div>
-                <div className="text-xs font-medium text-neutral-300 mt-1">{item.price}</div>
-              </div>
-              <Link
-                href={`/try-on?garment=${encodeURIComponent(item.name)}`}
-                className="mt-2 w-full py-1.5 text-center text-[11px] bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 font-medium text-neutral-200 rounded-lg transition-colors flex items-center justify-center gap-1"
-              >
-                <Sparkles size={12} />
-                <span>Try On</span>
-              </Link>
-            </div>
+            <Grid.Col span={6} key={idx}>
+              <Paper withBorder p="sm" radius="xs" style={{ background: '#FFFFFF', borderColor: '#E8E0D6', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Box style={{ aspectRatio: '3/4', background: '#FAF8F5', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 24, color: '#9A8E7C' }}>local_offer</span>
+                </Box>
+                <Box style={{ flex: 1 }}>
+                  <Text size="xs" tt="uppercase" c="#C9A84C" style={{ fontSize: 10, letterSpacing: '0.1em' }}>{item.cat}</Text>
+                  <Text size="xs" fw={600} c="#1A1A1A" lineClamp={1}>{item.name}</Text>
+                  <Text size="xs" fw={500} c="#6B6560" mt={4}>{item.price}</Text>
+                </Box>
+                <Button component={Link} href={`/try-on?garment=${encodeURIComponent(item.name)}`} color="dark" variant="outline" fullWidth size="xs" radius="xs" mt="sm" leftSection={<span className="material-symbols-outlined" style={{ fontSize: 14 }}>auto_awesome</span>}>
+                  Try On
+                </Button>
+              </Paper>
+            </Grid.Col>
           ))}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Box>
+    </Stack>
   );
 }

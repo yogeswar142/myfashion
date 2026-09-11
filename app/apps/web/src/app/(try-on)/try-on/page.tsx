@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Camera, Upload, Sparkles, ArrowRight, ArrowLeft, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Box, Stack, Group, Text, Paper, Button, ActionIcon, Grid } from '@mantine/core';
 
 const STEPS = [
   { id: 1, title: 'Photo', desc: 'Capture or Model' },
@@ -16,171 +16,184 @@ export default function TryOnPage() {
   const [selectedCategory, setSelectedCategory] = useState('saree');
 
   return (
-    <div className="flex flex-col space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Link
+    <Stack gap="xl" px={20} pt={16} pb={80} style={{ minHeight: '100%' }}>
+      <Group justify="space-between" align="center">
+        <Button
+          component={Link}
           href="/"
-          className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
+          variant="subtle"
+          color="gray"
+          size="xs"
+          leftSection={<span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_back</span>}
+          styles={{ root: { color: '#6B6560', padding: 0 } }}
         >
-          <ArrowLeft size={14} />
-          <span>Back</span>
-        </Link>
-        <span className="text-[10px] tracking-wider uppercase bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded border border-amber-500/30">
+          Back
+        </Button>
+        <Text size="xs" tt="uppercase" c="#C9A84C" fw={600} style={{ letterSpacing: '0.12em', padding: '2px 8px', background: 'rgba(201, 168, 76, 0.1)', border: '1px solid rgba(201, 168, 76, 0.3)' }}>
           Virtual Fitting Room
-        </span>
-      </div>
+        </Text>
+      </Group>
 
-      {/* 4-Step Progress Indicator */}
-      <div className="bg-neutral-900/90 rounded-xl p-3 border border-neutral-800">
-        <div className="flex items-center justify-between">
-          {STEPS.map((step) => (
-            <div
-              key={step.id}
-              onClick={() => setCurrentStep(step.id)}
-              className={`flex-1 text-center cursor-pointer transition-all ${
-                currentStep === step.id
-                  ? 'text-amber-400'
-                  : currentStep > step.id
-                  ? 'text-emerald-400'
-                  : 'text-neutral-500'
-              }`}
-            >
-              <div
-                className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-semibold mb-1 ${
-                  currentStep === step.id
-                    ? 'bg-amber-500 text-neutral-950 ring-2 ring-amber-400/40'
-                    : currentStep > step.id
-                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-700'
-                    : 'bg-neutral-800 text-neutral-400'
-                }`}
-              >
-                {step.id}
-              </div>
-              <div className="text-[10px] font-medium">{step.title}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Paper withBorder p="sm" radius="xs" style={{ background: '#FFFFFF', borderColor: '#E8E0D6' }}>
+        <Group grow align="flex-start" gap="xs">
+          {STEPS.map((step) => {
+            const isActive = currentStep === step.id;
+            const isCompleted = currentStep > step.id;
+            return (
+              <Stack key={step.id} gap={4} align="center" style={{ cursor: 'pointer' }} onClick={() => setCurrentStep(step.id)}>
+                <Box
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    background: isActive ? '#C9A84C' : isCompleted ? '#E8E0D6' : '#FAF8F5',
+                    color: isActive ? '#fff' : '#1A1A1A',
+                    border: `1px solid ${isActive ? '#C9A84C' : '#E8E0D6'}`,
+                  }}
+                >
+                  {step.id}
+                </Box>
+                <Text size="xs" fw={isActive ? 600 : 400} c={isActive ? '#1A1A1A' : '#6B6560'} style={{ fontSize: 10 }}>
+                  {step.title}
+                </Text>
+              </Stack>
+            );
+          })}
+        </Group>
+      </Paper>
 
-      {/* Step Content */}
-      <div className="flex-1">
+      <Box style={{ flex: 1 }}>
         {currentStep === 1 && (
-          <div className="space-y-4">
-            <h2 className="text-sm font-semibold text-white">Step 1: Choose or Capture Photo</h2>
-            <p className="text-xs text-neutral-400">
-              Provide a full-length customer photo or pick an AI reference model.
-            </p>
+          <Stack gap="sm">
+            <Text size="sm" fw={600} c="#1A1A1A">Step 1: Choose or Capture Photo</Text>
+            <Text size="xs" c="#6B6560">Provide a full-length customer photo or pick an AI reference model.</Text>
 
-            <div className="grid grid-cols-2 gap-3">
-              <button className="flex flex-col items-center justify-center p-5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/50 transition-colors text-center group">
-                <div className="p-3 rounded-full bg-neutral-800 text-amber-400 mb-2 group-hover:scale-105 transition-transform">
-                  <Camera size={22} />
-                </div>
-                <span className="text-xs font-semibold text-white">Camera</span>
-                <span className="text-[10px] text-neutral-500 mt-0.5">Take photo in-store</span>
-              </button>
+            <Grid gutter="sm">
+              <Grid.Col span={6}>
+                <Paper
+                  withBorder
+                  p="md"
+                  radius="xs"
+                  style={{ textAlign: 'center', cursor: 'pointer', borderColor: '#E8E0D6', background: '#FAF8F5' }}
+                >
+                  <ActionIcon variant="light" color="yellow" size="xl" radius="xl" mx="auto" mb="sm">
+                    <span className="material-symbols-outlined" style={{ fontSize: 24, color: '#C9A84C' }}>photo_camera</span>
+                  </ActionIcon>
+                  <Text size="xs" fw={600} c="#1A1A1A">Camera</Text>
+                  <Text size="xs" c="#6B6560" style={{ fontSize: 10 }}>Take photo in-store</Text>
+                </Paper>
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Paper
+                  withBorder
+                  p="md"
+                  radius="xs"
+                  style={{ textAlign: 'center', cursor: 'pointer', borderColor: '#E8E0D6', background: '#FAF8F5' }}
+                >
+                  <ActionIcon variant="light" color="yellow" size="xl" radius="xl" mx="auto" mb="sm">
+                    <span className="material-symbols-outlined" style={{ fontSize: 24, color: '#C9A84C' }}>upload</span>
+                  </ActionIcon>
+                  <Text size="xs" fw={600} c="#1A1A1A">Upload</Text>
+                  <Text size="xs" c="#6B6560" style={{ fontSize: 10 }}>From gallery</Text>
+                </Paper>
+              </Grid.Col>
+            </Grid>
 
-              <button className="flex flex-col items-center justify-center p-5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/50 transition-colors text-center group">
-                <div className="p-3 rounded-full bg-neutral-800 text-amber-400 mb-2 group-hover:scale-105 transition-transform">
-                  <Upload size={22} />
-                </div>
-                <span className="text-xs font-semibold text-white">Upload</span>
-                <span className="text-[10px] text-neutral-500 mt-0.5">From gallery</span>
-              </button>
-            </div>
-
-            <div className="pt-2">
-              <span className="text-xs font-medium text-neutral-400 block mb-2">Or select model preset:</span>
-              <div className="grid grid-cols-3 gap-2">
-                {['Female (Saree Model)', 'Female (Western)', 'Male (Kurta Model)'].map((name, i) => (
-                  <div
-                    key={i}
-                    className="p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 text-center cursor-pointer hover:border-amber-500/40 text-[11px] text-neutral-300"
-                  >
-                    {name}
-                  </div>
+            <Box mt="md">
+              <Text size="xs" fw={500} c="#6B6560" mb="xs">Or select model preset:</Text>
+              <Grid gutter="xs">
+                {['Female (Saree)', 'Female (Western)', 'Male (Kurta)'].map((name, i) => (
+                  <Grid.Col span={4} key={i}>
+                    <Paper withBorder p="xs" radius="xs" style={{ textAlign: 'center', cursor: 'pointer', borderColor: '#E8E0D6', background: '#FFFFFF' }}>
+                      <Text size="xs" c="#1A1A1A" style={{ fontSize: 10 }}>{name}</Text>
+                    </Paper>
+                  </Grid.Col>
                 ))}
-              </div>
-            </div>
-          </div>
+              </Grid>
+            </Box>
+          </Stack>
         )}
 
         {currentStep === 2 && (
-          <div className="space-y-4">
-            <h2 className="text-sm font-semibold text-white">Step 2: Select Garment</h2>
-            <p className="text-xs text-neutral-400">Choose category and apparel to drape.</p>
+          <Stack gap="sm">
+            <Text size="sm" fw={600} c="#1A1A1A">Step 2: Select Garment</Text>
+            <Text size="xs" c="#6B6560">Choose category and apparel to drape.</Text>
 
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <Group gap="xs" style={{ overflowX: 'auto', flexWrap: 'nowrap', paddingBottom: 4 }}>
               {['saree', 'dress', 'top', 'bottom', 'children'].map((cat) => (
-                <button
+                <Button
                   key={cat}
+                  variant={selectedCategory === cat ? 'filled' : 'outline'}
+                  color="dark"
+                  size="xs"
+                  radius="xs"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize shrink-0 transition-colors ${
-                    selectedCategory === cat
-                      ? 'bg-amber-500 text-neutral-950 font-semibold'
-                      : 'bg-neutral-900 text-neutral-400 border border-neutral-800'
-                  }`}
+                  style={{ flexShrink: 0, textTransform: 'capitalize' }}
                 >
                   {cat}
-                </button>
+                </Button>
               ))}
-            </div>
+            </Group>
 
-            <div className="p-6 rounded-xl bg-neutral-900 border border-dashed border-neutral-700 text-center">
-              <Sparkles size={24} className="mx-auto text-amber-400 mb-2" />
-              <div className="text-xs font-medium text-white mb-1">Select Garment from Catalog or Upload</div>
-              <p className="text-[11px] text-neutral-500">Supports sarees, gowns, kurtas, and suits</p>
-            </div>
-          </div>
+            <Paper withBorder p="xl" radius="xs" style={{ textAlign: 'center', borderStyle: 'dashed', borderColor: '#E8E0D6', background: '#FAF8F5' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 32, color: '#C9A84C', marginBottom: 8 }}>auto_awesome</span>
+              <Text size="xs" fw={600} c="#1A1A1A" mb={4}>Select Garment from Catalog or Upload</Text>
+              <Text size="xs" c="#6B6560" style={{ fontSize: 11 }}>Supports sarees, gowns, kurtas, and suits</Text>
+            </Paper>
+          </Stack>
         )}
 
         {currentStep === 3 && (
-          <div className="space-y-4 text-center py-8">
-            <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
-              <RefreshCw size={32} className="text-amber-400 animate-spin" />
-            </div>
-            <h2 className="text-base font-bold text-white">Generating AI Look...</h2>
-            <p className="text-xs text-neutral-400 max-w-xs mx-auto">
+          <Stack gap="md" align="center" py="xl">
+            <span className="material-symbols-outlined" style={{ fontSize: 48, color: '#C9A84C', animation: 'spin 2s linear infinite' }}>sync</span>
+            <Text size="md" fw={600} c="#1A1A1A">Generating AI Look...</Text>
+            <Text size="xs" c="#6B6560" ta="center" style={{ maxWidth: 280 }}>
               Synthesizing realistic fabric drape, folds, shadows, and lighting.
-            </p>
-            <div className="text-[11px] font-mono text-amber-400/80 bg-neutral-900 px-3 py-1.5 rounded-lg w-fit mx-auto border border-neutral-800">
+            </Text>
+            <Text size="xs" fw={600} c="#C9A84C" style={{ fontFamily: 'monospace', padding: '4px 12px', background: 'rgba(201, 168, 76, 0.1)', borderRadius: 4 }}>
               Estimated time: ~10-15s
-            </div>
-          </div>
+            </Text>
+          </Stack>
         )}
 
         {currentStep === 4 && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-emerald-400">
-              <CheckCircle2 size={16} />
-              <h2 className="text-sm font-semibold">Drape Generated Successfully</h2>
-            </div>
-            <div className="aspect-[3/4] bg-neutral-900 rounded-xl border border-neutral-800 flex items-center justify-center text-neutral-500 text-xs">
-              [VTON High-Fidelity Result Preview]
-            </div>
-          </div>
+          <Stack gap="sm">
+            <Group gap="xs" style={{ color: '#2ecc71' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>check_circle</span>
+              <Text size="sm" fw={600}>Drape Generated Successfully</Text>
+            </Group>
+            <Paper withBorder radius="xs" style={{ aspectRatio: '3/4', background: '#FAF8F5', borderColor: '#E8E0D6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Text size="xs" c="#6B6560">[VTON High-Fidelity Result Preview]</Text>
+            </Paper>
+          </Stack>
         )}
-      </div>
+      </Box>
 
-      {/* Navigation Buttons */}
-      <div className="flex items-center justify-between pt-4 border-t border-neutral-800">
-        <button
-          onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
+      <Group justify="space-between" pt="md" style={{ borderTop: '1px solid #E8E0D6', marginTop: 'auto' }}>
+        <Button
+          variant="subtle"
+          color="gray"
           disabled={currentStep === 1}
-          className="px-3 py-2 rounded-lg text-xs font-medium text-neutral-400 disabled:opacity-30"
+          onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
+          radius="xs"
         >
           Previous
-        </button>
-        <button
-          onClick={() => setCurrentStep((s) => Math.min(4, s + 1))}
+        </Button>
+        <Button
+          color="dark"
           disabled={currentStep === 4}
-          className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-neutral-950 rounded-lg text-xs font-semibold disabled:opacity-30"
+          onClick={() => setCurrentStep((s) => Math.min(4, s + 1))}
+          radius="xs"
+          rightSection={<span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>}
         >
-          <span>Continue</span>
-          <ArrowRight size={14} />
-        </button>
-      </div>
-    </div>
+          Continue
+        </Button>
+      </Group>
+    </Stack>
   );
 }

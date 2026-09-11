@@ -1,36 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@mantine/core/styles.css';
 
-@layer base {
-  html,
-  body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #fbf9f6;
-    color: #1b1c1a;
-  }
-  body {
-    overscroll-behavior: none;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-font-smoothing: antialiased;
-  }
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  .pt-safe {
-    padding-top: env(safe-area-inset-top, 0px);
-  }
-  main > :first-child {
-    margin-top: 0 !important;
-  }
-  main > :last-child {
-    margin-bottom: 0 !important;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #FAF8F5;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

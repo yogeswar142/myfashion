@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Clock, ArrowLeft, Sparkles, Eye, Share2 } from 'lucide-react';
+import { Stack, Group, Text, Paper, Box, Button } from '@mantine/core';
 
 export default function HistoryPage() {
   const historyItems = [
@@ -27,63 +27,60 @@ export default function HistoryPage() {
   ];
 
   return (
-    <div className="flex flex-col space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Link
+    <Stack gap="xl" px={20} pt={16} pb={80}>
+      <Group justify="space-between" align="center">
+        <Button
+          component={Link}
           href="/"
-          className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
+          variant="subtle"
+          color="gray"
+          size="xs"
+          leftSection={<span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_back</span>}
+          styles={{ root: { color: '#6B6560', padding: 0 } }}
         >
-          <ArrowLeft size={14} />
-          <span>Back</span>
-        </Link>
-        <span className="text-[10px] tracking-wider uppercase bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded border border-purple-500/30">
+          Back
+        </Button>
+        <Text size="xs" tt="uppercase" c="#9E7E1E" fw={600} style={{ letterSpacing: '0.12em', padding: '2px 8px', background: 'rgba(158, 126, 30, 0.1)', border: '1px solid rgba(158, 126, 30, 0.3)' }}>
           Try-On History
-        </span>
-      </div>
+        </Text>
+      </Group>
 
-      <div className="flex items-center justify-between">
-        <h1 className="text-sm font-bold text-white">Your Lookbook ({historyItems.length})</h1>
-        <span className="text-[11px] text-neutral-400">Auto-saved</span>
-      </div>
+      <Group justify="space-between" align="center">
+        <Text size="sm" fw={700} c="#1A1A1A">Your Lookbook ({historyItems.length})</Text>
+        <Text size="xs" c="#6B6560">Auto-saved</Text>
+      </Group>
 
-      {/* History Items */}
-      <div className="space-y-3">
+      <Stack gap="sm">
         {historyItems.map((item) => (
-          <div
-            key={item.id}
-            className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 flex gap-3 items-center"
-          >
-            {/* Thumbnail Placeholder */}
-            <div className="w-16 h-20 rounded-lg bg-neutral-800 flex items-center justify-center text-neutral-600 shrink-0 border border-neutral-700/50">
-              <Sparkles size={16} className="text-amber-400/60" />
-            </div>
+          <Paper key={item.id} withBorder p="sm" radius="xs" style={{ background: '#FFFFFF', borderColor: '#E8E0D6' }}>
+            <Group gap="md" wrap="nowrap" align="center">
+              <Box style={{ width: 64, height: 80, background: '#FAF8F5', border: '1px solid #E8E0D6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 20, color: '#C9A84C' }}>auto_awesome</span>
+              </Box>
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-[10px] text-neutral-400">{item.date}</span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/60">
-                  {item.status}
-                </span>
-              </div>
-              <h2 className="text-xs font-semibold text-white truncate">{item.garment}</h2>
-              <p className="text-[11px] text-neutral-400 truncate">{item.branch}</p>
+              <Box style={{ flex: 1, minWidth: 0 }}>
+                <Group gap="xs" mb={4}>
+                  <Text size="xs" c="#6B6560" style={{ fontSize: 10 }}>{item.date}</Text>
+                  <Text size="xs" tt="uppercase" style={{ fontSize: 9, padding: '2px 6px', background: '#E8F5E9', color: '#2E7D32', border: '1px solid #A5D6A7' }}>{item.status}</Text>
+                </Group>
+                <Text size="xs" fw={600} c="#1A1A1A" truncate>{item.garment}</Text>
+                <Text size="xs" c="#6B6560" truncate style={{ fontSize: 11 }}>{item.branch}</Text>
 
-              <div className="flex items-center gap-3 mt-2">
-                <button className="flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300">
-                  <Eye size={12} />
-                  <span>View Look</span>
-                </button>
-                <button className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-white">
-                  <Share2 size={12} />
-                  <span>Share</span>
-                </button>
-              </div>
-            </div>
-          </div>
+                <Group gap="md" mt="sm">
+                  <Text component="button" size="xs" c="#C9A84C" style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: 11 }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 14 }}>visibility</span>
+                    View Look
+                  </Text>
+                  <Text component="button" size="xs" c="#6B6560" style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: 11 }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 14 }}>share</span>
+                    Share
+                  </Text>
+                </Group>
+              </Box>
+            </Group>
+          </Paper>
         ))}
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 }

@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { pingWorker, getWorkerBaseUrl } from '@/lib/api-client';
 import { PingResponse } from '@myfashion/shared-types';
-import { Activity, CheckCircle2, AlertCircle, RefreshCw, Server, Send } from 'lucide-react';
+import {
+  Paper, Box, Text, Group, Badge, TextInput, Button, Code, Stack, Loader, Alert,
+} from '@mantine/core';
 
 export function PingTestCard() {
   const [loading, setLoading] = useState(false);
@@ -20,91 +22,83 @@ export function PingTestCard() {
       const data = await pingWorker(echoText || undefined);
       setLatencyMs(Math.round(performance.now() - start));
       setResponse(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setLatencyMs(Math.round(performance.now() - start));
-      setError(err?.message || 'Failed to connect to Worker');
+      setError(err instanceof Error ? err.message : 'Failed to connect to Worker');
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    triggerPing();
-  }, []);
+  useEffect(() => { triggerPing(); }, []);
 
   const workerUrl = getWorkerBaseUrl();
 
   return (
-    <div className="bg-neutral-900/90 rounded-xl p-4 border border-neutral-800 shadow-lg mb-6">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center space-x-2">
-          <Server size={18} className="text-amber-400" />
-          <h2 className="text-sm font-semibold tracking-wide text-neutral-200">
-            Worker Connection Status
-          </h2>
-        </div>
+    <Paper
+      withBorder
+      p="md"
+      radius="xs"
+      mb="lg"
+      style={{ background: '#111', borderColor: '#333', color: '#E8E0D6' }}
+    >
+      <Group justify="space-between" mb="sm">
+        <Text size="sm" fw={600} c="#E8E0D6">
+          Worker Connection Status
+        </Text>
         {loading ? (
-          <span className="flex items-center text-xs text-amber-400">
-            <RefreshCw size={12} className="animate-spin mr-1" /> Testing...
-          </span>
+          <Group gap={4}><Loader size="xs" color="yellow" /><Text size="xs" c="yellow">Testing...</Text></Group>
         ) : response ? (
-          <span className="flex items-center text-xs text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800/60">
-            <CheckCircle2 size={12} className="mr-1" /> Connected ({latencyMs}ms)
-          </span>
+          <Badge color="green" radius="xs">Connected ({latencyMs}ms)</Badge>
         ) : (
-          <span className="flex items-center text-xs text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded-full border border-rose-800/60">
-            <AlertCircle size={12} className="mr-1" /> Disconnected
-          </span>
+          <Badge color="red" radius="xs">Disconnected</Badge>
         )}
-      </div>
+      </Group>
 
-      <p className="text-xs text-neutral-400 mb-3 font-mono break-all">
-        Target: <span className="text-neutral-300">{workerUrl}/api/ping</span>
-      </p>
+      <Text size="xs" c="dimmed" mb="sm" ff="monospace" style={{ wordBreak: 'break-all' }}>
+        Target: <Text span c="#E8E0D6">{workerUrl}/api/ping</Text>
+      </Text>
 
-      {/* Interactive Echo & Test Button */}
-      <div className="flex gap-2 mb-3">
-        <input
-          type="text"
+      <Group gap="xs" mb="sm">
+        <TextInput
           value={echoText}
           onChange={(e) => setEchoText(e.target.value)}
-          placeholder="Echo parameter (optional)"
-          className="flex-1 bg-neutral-950 text-neutral-200 text-xs px-3 py-2 rounded-lg border border-neutral-800 focus:outline-none focus:border-amber-400/60"
+          placeholder="Echo parameter"
+          size="xs"
+          radius="xs"
+          style={{ flex: 1 }}
+          styles={{ input: { background: '#1a1a1a', border: '1px solid #333', color: '#E8E0D6' } }}
         />
-        <button
+        <Button
           onClick={triggerPing}
           disabled={loading}
-          className="flex items-center gap-1.5 px-3 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg text-xs font-medium border border-amber-500/30 transition-colors disabled:opacity-50"
+          size="xs"
+          radius="xs"
+          variant="outline"
+          color="yellow"
         >
-          <Send size={12} />
-          <span>Ping</span>
-        </button>
-      </div>
+          Ping
+        </Button>
+      </Group>
 
-      {/* Response Display */}
       {response && (
-        <div className="mt-2 bg-neutral-950 rounded-lg p-3 border border-neutral-800/80">
-          <div className="flex items-center justify-between text-[11px] text-neutral-400 mb-1 border-b border-neutral-800 pb-1">
-            <span>GET /api/ping 200 OK</span>
-            <span className="text-neutral-400">env: {response.environment}</span>
-          </div>
-          <pre className="text-[11px] font-mono text-emerald-300 whitespace-pre-wrap overflow-x-auto">
+        <Stack gap={4}>
+          <Text size="xs" c="dimmed">GET /api/ping 200 OK • env: {response.environment}</Text>
+          <Code block style={{ background: '#0a0a0a', color: '#86efac', fontSize: 11 }}>
             {JSON.stringify(response, null, 2)}
-          </pre>
-        </div>
+          </Code>
+        </Stack>
       )}
 
       {error && (
-        <div className="mt-2 bg-rose-950/30 border border-rose-900/50 rounded-lg p-3">
-          <div className="text-xs text-rose-300 font-medium mb-1">Connection Error</div>
-          <p className="text-[11px] text-rose-400 font-mono break-all">{error}</p>
-          <p className="text-[10px] text-neutral-500 mt-2">
-            Tip: Ensure Cloudflare Worker is running locally on port 8787 via{' '}
-            <code className="text-neutral-400">npm run dev:worker</code> or{' '}
-            <code className="text-neutral-400">wrangler dev</code>.
-          </p>
-        </div>
+        <Alert color="red" radius="xs" mt="xs" styles={{ root: { background: '#2d0a0a', borderColor: '#7f1d1d' } }}>
+          <Text size="xs" fw={600} c="#fca5a5" mb={4}>Connection Error</Text>
+          <Text size="xs" c="#f87171" ff="monospace" style={{ wordBreak: 'break-all' }}>{error}</Text>
+          <Text size="xs" c="dimmed" mt="xs">
+            Tip: Ensure Worker is running on port 8787 via <Code>npm run dev:worker</Code>.
+          </Text>
+        </Alert>
       )}
-    </div>
+    </Paper>
   );
 }

@@ -2,12 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Box, Flex } from '@mantine/core';
 
-interface NavItem {
-  label: string;
-  href: string;
-  icon: string;
-}
+interface NavItem { label: string; href: string; icon: string; }
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/', icon: 'view_quilt' },
@@ -18,37 +15,57 @@ const NAV_ITEMS: NavItem[] = [
 
 export function BottomNav() {
   const pathname = usePathname();
-
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 pb-safe bg-surface border-t border-[#e5dfd7] flex justify-center">
-      <div className="w-full max-w-md h-16 px-margin-mobile flex items-center justify-around">
+    <Box
+      component="nav"
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: 480,
+        zIndex: 50,
+        background: '#FAF8F5',
+        borderTop: '1px solid #E8E0D6',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
+    >
+      <Flex style={{ height: 60, padding: '0 20px' }} align="center" justify="space-around">
         {NAV_ITEMS.map((item) => {
-          const isActive =
-            item.href === '/'
-              ? pathname === '/'
-              : pathname.startsWith(item.href);
-
+          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-1 transition-colors ${
-                isActive
-                  ? 'text-primary font-semibold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+                minWidth: 56,
+                minHeight: 44,
+                justifyContent: 'center',
+                textDecoration: 'none',
+                color: isActive ? '#1A1A1A' : '#6B6560',
+              }}
             >
-              <span className="material-symbols-outlined text-[22px]">
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  fontSize: 22,
+                  fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0",
+                }}
+              >
                 {item.icon}
               </span>
-              <span className="font-label-caps-sm text-label-caps-sm uppercase tracking-wider">
+              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                 {item.label}
               </span>
             </Link>
           );
         })}
-      </div>
-    </nav>
+      </Flex>
+    </Box>
   );
 }
-
