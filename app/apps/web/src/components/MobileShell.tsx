@@ -1,29 +1,55 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { BottomNav } from './BottomNav';
 
 export function MobileShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-neutral-950 flex justify-center">
-      <div className="w-full max-w-md min-h-screen bg-[#0c0c10] border-x border-neutral-800/60 shadow-2xl flex flex-col relative pb-20">
-        {/* Top App Bar */}
-        <header className="sticky top-0 z-40 bg-[#0c0c10]/80 backdrop-blur-md border-b border-neutral-800/60 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-sm font-semibold tracking-wider uppercase text-neutral-100">
-              MYFASHION
+    <div className="min-h-screen bg-surface flex justify-center">
+      <div className="w-full max-w-md min-h-screen bg-surface border-x border-[#e5dfd7] flex flex-col relative pb-20">
+        {/* Top Atelier Header */}
+        <header className="sticky top-0 z-40 bg-surface border-b border-[#e5dfd7] px-margin-mobile h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-space-xs">
+            <div className="relative h-7 w-20">
+              <Image
+                src="/assets/vton_wordmark_logo/screen.png"
+                alt="VTON Logo"
+                fill
+                className="object-contain object-left"
+                priority
+              />
+            </div>
+            <span className="font-label-caps-sm text-label-caps-sm uppercase text-on-surface tracking-[0.2em] font-semibold">
+              VTON
             </span>
+          </Link>
+
+          <div className="flex items-center gap-space-xs">
+            <button
+              type="button"
+              aria-label="Sensors and pairing"
+              className="w-10 h-10 flex items-center justify-center text-on-surface hover:text-on-surface-variant transition-colors relative"
+            >
+              <span className="material-symbols-outlined text-[20px]">sensors</span>
+              <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-primary" />
+            </button>
+            <Link
+              href="/account"
+              aria-label="Account profile"
+              className="w-8 h-8 rounded-full bg-surface-container-low border border-[#e5dfd7] flex items-center justify-center text-secondary hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-[18px]">account_circle</span>
+            </Link>
           </div>
-          <span className="text-[10px] tracking-widest uppercase bg-neutral-800/80 text-neutral-400 px-2 py-0.5 rounded border border-neutral-700/50">
-            VTON ATELIER
-          </span>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 flex flex-col p-4">{children}</main>
+        <main className="flex-1 flex flex-col">{children}</main>
 
-        {/* Persistent Mobile Bottom Navigation */}
+        {/* Persistent Bottom Nav */}
         <BottomNav />
       </div>
     </div>
   );
 }
+
