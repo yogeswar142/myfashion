@@ -39,7 +39,7 @@ export function MobileShell({ children }: { children: React.ReactNode }) {
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
             <div style={{ position: 'relative', height: 28, width: 76 }}>
               <Image
-                src="/assets/vton_wordmark_logo/screen.png"
+                src="/images/vton_wordmark_logo.png"
                 alt="VTON Logo"
                 fill
                 style={{ objectFit: 'contain', objectPosition: 'left' }}

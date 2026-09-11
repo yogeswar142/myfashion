@@ -35,3 +35,8 @@ yarn-error.log*
 
 # Standing Agent Instructions (Local only)
 GEMINI.md
+
+# Design, reference, and raw asset folders
+assets/
+**/assets/
+

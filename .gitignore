@@ -42,5 +42,9 @@ yarn-error.log*
 Thumbs.db
 *.pem
 .vscode/
-.idea/
 *.tsbuildinfo
+
+# Design, reference, and raw asset folders
+assets/
+**/assets/
+

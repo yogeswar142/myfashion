@@ -20,7 +20,7 @@ const MOCK_RECENT_SESSIONS = [
     tag: 'Rendered 4K',
     fitMetric: 'Drape tension: 98% Natural',
     size: 'EU 38',
-    imageSrc: '/assets/images/high_fashion_editorial_lookbook_photo_of_an_elegant_model_wearing_an_olive.png',
+    imageSrc: '/images/high_fashion_editorial_lookbook_photo_of_an_elegant_model_wearing_an_olive.png',
     bookmarked: true,
   },
   {
@@ -33,7 +33,7 @@ const MOCK_RECENT_SESSIONS = [
     tag: 'In Boutique',
     fitMetric: 'Silk Bias: Flawless drape',
     size: 'EU 36',
-    imageSrc: '/assets/images/luxury_fashion_editorial_photograph_of_a_model_in_a_fluid_draped_silk_cream.png',
+    imageSrc: '/images/luxury_fashion_editorial_photograph_of_a_model_in_a_fluid_draped_silk_cream.png',
     bookmarked: false,
   },
   {
@@ -46,7 +46,7 @@ const MOCK_RECENT_SESSIONS = [
     tag: 'Runway Piece',
     fitMetric: 'Ease allowance: +3.2cm',
     size: 'EU 40',
-    imageSrc: '/assets/images/high_fashion_full_body_editorial_photograph_of_a_model_wearing_an_architectural.png',
+    imageSrc: '/images/high_fashion_full_body_editorial_photograph_of_a_model_wearing_an_architectural.png',
     bookmarked: false,
   },
   {
@@ -59,7 +59,7 @@ const MOCK_RECENT_SESSIONS = [
     tag: 'Private Salon',
     fitMetric: 'Pallu drape: Precision pleats',
     size: 'Bespoke',
-    imageSrc: '/assets/images/high_fashion_editorial_portrait_of_an_elegant_woman_serene_expression_minimal.png',
+    imageSrc: '/images/high_fashion_editorial_portrait_of_an_elegant_woman_serene_expression_minimal.png',
     bookmarked: true,
   },
 ];

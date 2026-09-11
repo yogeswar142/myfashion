@@ -124,7 +124,7 @@ export function AuthFlow({ initialStep = 'login' }: AuthFlowProps) {
       <Stack align="center" ta="center" my="xs" gap="xs">
         <Box style={{ position: 'relative', width: 112, height: 36, marginBottom: 8 }}>
           <Image
-            src="/assets/vton_wordmark_logo/screen.png"
+            src="/images/vton_wordmark_logo.png"
             alt="VTON Brand Monogram"
             fill
             style={{ objectFit: 'contain' }}
